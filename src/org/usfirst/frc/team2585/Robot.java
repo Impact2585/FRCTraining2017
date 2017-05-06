@@ -1,6 +1,7 @@
-package org.usfirst.frc.team2585.robot;
+package org.usfirst.frc.team2585;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import org.impact2585.lib2585.ExecuterBasedRobot;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,11 +12,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends ExecuterBasedRobot {
+
+	private static final long serialVersionUID = 5925353859431414919L;
+	
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
+	
+	private Environment environ;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -26,6 +32,8 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		
+		environ = new Environment(this);
 	}
 
 	/**
@@ -62,12 +70,18 @@ public class Robot extends IterativeRobot {
 			break;
 		}
 	}
+	
+	@Override 
+	public void teleopInit() {
+		setExecuter(new TeleopExecutor(environ));
+	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
 	public void teleopPeriodic() {
+		getExecuter().execute();
 	}
 
 	/**
