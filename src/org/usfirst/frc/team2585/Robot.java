@@ -13,10 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends ExecuterBasedRobot {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 5925353859431414919L;
+	
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	String autoSelected;
@@ -74,7 +73,7 @@ public class Robot extends ExecuterBasedRobot {
 	
 	@Override 
 	public void teleopInit() {
-		setExecuter(new TeleopExecuter(environ));
+		setExecuter(new TeleopExecutor(environ));
 	}
 
 	/**
@@ -82,6 +81,7 @@ public class Robot extends ExecuterBasedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		getExecuter().execute();
 	}
 
 	/**

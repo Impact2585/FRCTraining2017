@@ -5,36 +5,51 @@ import org.usfirst.frc.team2585.input.InputMethod;
 import org.usfirst.frc.team2585.input.XboxInput;
 import org.usfirst.frc.team2585.systems.WheelSystem;
 
-
+/**
+ * This class contains the robot's systems and input
+ */
 public class Environment extends RobotEnvironment{
 	
-	/**
-	 * 
-	 */
-	//TODO: change to an appropriate value
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 6320366174026889629L;
 	private InputMethod input;
 	private WheelSystem wheels;
 	
+	
+	/**
+	 * Initializes the systems
+	 * @param robot the robot that belongs to the environment
+	 */
 	public Environment(Robot robot) {
 		super(robot);
-		wheels = new WheelSystem();
 		input = new XboxInput();
-	}
-
-	@Override
-	public void destroy() {
-		wheels.destroy();
+		wheels = new WheelSystem();
 		
+		wheels.init(this);
 	}
 	
+	
+	/**
+	 * @return the wheelSystem
+	 */
 	public WheelSystem getWheelSystem() {
 		return wheels;
 	}
 	
+	
+	/**
+	 * @return the input
+	 */
 	public InputMethod getInput() {
 		return input;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.impact2585.lib2585.Destroyable#destroy()
+	 */
+	@Override
+	public void destroy() {
+		wheels.destroy();
+		
 	}
 
 }

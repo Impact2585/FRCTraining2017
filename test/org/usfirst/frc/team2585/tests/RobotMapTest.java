@@ -1,11 +1,19 @@
 package org.usfirst.frc.team2585.tests;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.usfirst.frc.team2585.RobotMap;
 
+/**
+ * Test for the RobotMap
+ */
 public class RobotMapTest {	
 	// Not really necessary, but just for good practice
 	
+	
+	/**
+	 * Test the robotMap
+	 */
 	@Test
 	public void test() {
 		// Make sure that the right motors are using two different ports

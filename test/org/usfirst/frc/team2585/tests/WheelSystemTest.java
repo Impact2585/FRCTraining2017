@@ -17,12 +17,14 @@ public class WheelSystemTest {
 	private double currentForward;
 	private double currentRotation;
 	
+	/**
+	 * Set up the wheelSystem for testing and initialize inputs to 0
+	 */
 	@Before
 	public void setUp() {
 		input = new TestInput();
 		
-		driveTrain = new TestWheelSystem();
-		driveTrain.setInput(input);
+		newWheelSystem();
 		
 		forwardInput = 0;
 		rotationInput = 0;
@@ -30,22 +32,31 @@ public class WheelSystemTest {
 		currentRotation = 0;
 	}
 	
+	
+	/**
+	 * Create a new wheel system with reset values of movement and rotation
+	 */
 	public void newWheelSystem() {
 		driveTrain = new TestWheelSystem();
 		driveTrain.setInput(input);
 	}
 
+	/**
+	 * Test that the forward starts as 0
+	 */
 	@Test
 	public void testStartAtZero() {
-		// Test that the forward starts as 0
 		driveTrain.run();
 		Assert.assertTrue(currentForward == 0);
 		Assert.assertTrue(currentRotation == 0);
 	}
 	
+	
+	/**
+	 * Test that the forward properly ramps with a positive difference
+	 */
 	@Test
 	public void testPosRamp() {
-		// Test that the forward properly ramps with a positive difference
 		forwardInput = 1;
 		driveTrain.run();
 		Assert.assertTrue(currentForward == 0.6);
@@ -54,32 +65,39 @@ public class WheelSystemTest {
 		Assert.assertTrue(currentForward == 0.84);
 	}
 	
+	/**
+	 * Test that the forward properly ramps with a negative difference
+	 */
 	@Test
-	public void testNegRamp() {		
-		// Test that the forward properly ramps with a negative difference
+	public void testNegRamp() {	
 		newWheelSystem();
 		forwardInput = -1;
 		driveTrain.run();
 		Assert.assertTrue(currentForward == -0.6);
 	}
 	
+	/**
+	 * // Test that the forward and rotation are dampened with the deadzone
+	 */
 	@Test
 	public void testDeadzone() {
-		
-		// Test that the forward is dampened with the deadzone
+		// Test forward dampening
 		newWheelSystem();
 		forwardInput = 0.14;
 		driveTrain.run();
 		Assert.assertTrue(currentForward == 0);
-		// Test that the rotation is dampened with the deadzone
+		
+		// Test rotation dampening
 		rotationInput = 0.14;
 		driveTrain.run();
 		Assert.assertTrue(currentRotation == 0);
 	}
 	
+	/**
+	 * Test that forward goes straight to 0 if input is 0
+	 */
 	@Test
 	public void testDropToZero() {
-		// Test that forward goes straight to 0 if input is 0
 		forwardInput = 1;
 		for(int i=0; i<5; i++) {
 			driveTrain.run();
@@ -90,9 +108,11 @@ public class WheelSystemTest {
 		Assert.assertTrue(currentForward == 0);
 	}
 	
+	/**
+	 * Test that forward jumps to the value when within 0.01
+	 */
 	@Test
 	public void testSkipToValue() {
-		// Test that forward jumps to the value when within 0.01
 		newWheelSystem();
 		forwardInput = 1;
 		for(int i=0; i<6; i++) {
@@ -101,21 +121,32 @@ public class WheelSystemTest {
 		Assert.assertTrue(currentForward == 1);
 	}
 	
+	/**
+	 * Input that uses the values of the test class as input
+	 * This is meant to be given to the test wheelSystem to allow testing
+	 */
 	private class TestInput extends InputMethod {
-		// Input that uses the values of the test class as input
-		// This is meant to be given to the test wheelsystem to allow testing
-		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#forwardMovement()
+		 */
 		@Override
 		public double forwardMovement() {
 			return forwardInput;
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#rotationValue()
+		 */
 		@Override
 		public double rotationValue() {
 			return rotationInput;
 		}
 	}
 	
+	/**
+	 * A testable wheelSystem that sets the test class variables 
+	 * rather than driving the motors
+	 */
 	private class TestWheelSystem extends WheelSystem {
 		@Override 
 		public void driveWithRotation(double newForward, double newRotation) {
