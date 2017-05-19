@@ -14,8 +14,13 @@ public class WheelSystemTest {
 	private double forwardInput;
 	private double rotationInput;
 	
-	private double currentForward;
-	private double currentRotation;
+	private double currentForwardOut;
+	private double currentRotationOut;
+	
+	private boolean invertInput;
+	private boolean boostInput;
+
+	private boolean currentBoost;
 	
 	/**
 	 * Set up the wheelSystem for testing and initialize inputs to 0
@@ -26,10 +31,7 @@ public class WheelSystemTest {
 		
 		newWheelSystem();
 		
-		forwardInput = 0;
-		rotationInput = 0;
-		currentForward = 0;
-		currentRotation = 0;
+		resetInput();
 	}
 	
 	
@@ -40,6 +42,20 @@ public class WheelSystemTest {
 		driveTrain = new TestWheelSystem();
 		driveTrain.setInput(input);
 	}
+	
+	/**
+	 * Set the inputs to their default values
+	 */
+	public void resetInput() {
+		forwardInput = 0;
+		rotationInput = 0;
+		currentForwardOut = 0;
+		currentRotationOut = 0;
+		
+		invertInput = false;
+		boostInput = false;
+		currentBoost = false;
+	}
 
 	/**
 	 * Test that the forward starts as 0
@@ -47,10 +63,9 @@ public class WheelSystemTest {
 	@Test
 	public void testStartAtZero() {
 		driveTrain.run();
-		Assert.assertTrue(currentForward == 0);
-		Assert.assertTrue(currentRotation == 0);
+		Assert.assertTrue(currentForwardOut == 0);
+		Assert.assertTrue(currentRotationOut == 0);
 	}
-	
 	
 	/**
 	 * Test that the forward properly ramps with a positive difference
@@ -59,10 +74,10 @@ public class WheelSystemTest {
 	public void testPosRamp() {
 		forwardInput = 1;
 		driveTrain.run();
-		Assert.assertTrue(currentForward == 0.6);
+		Assert.assertTrue(currentForwardOut == 0.6);
 		// Assure that the ramping works twice in a row
 		driveTrain.run();
-		Assert.assertTrue(currentForward == 0.84);
+		Assert.assertTrue(currentForwardOut == 0.84);
 	}
 	
 	/**
@@ -70,10 +85,9 @@ public class WheelSystemTest {
 	 */
 	@Test
 	public void testNegRamp() {	
-		newWheelSystem();
 		forwardInput = -1;
 		driveTrain.run();
-		Assert.assertTrue(currentForward == -0.6);
+		Assert.assertTrue(currentForwardOut == -0.6);
 	}
 	
 	/**
@@ -82,15 +96,14 @@ public class WheelSystemTest {
 	@Test
 	public void testDeadzone() {
 		// Test forward dampening
-		newWheelSystem();
 		forwardInput = 0.14;
 		driveTrain.run();
-		Assert.assertTrue(currentForward == 0);
+		Assert.assertTrue(currentForwardOut == 0);
 		
 		// Test rotation dampening
 		rotationInput = 0.14;
 		driveTrain.run();
-		Assert.assertTrue(currentRotation == 0);
+		Assert.assertTrue(currentRotationOut == 0);
 	}
 	
 	/**
@@ -102,10 +115,10 @@ public class WheelSystemTest {
 		for(int i=0; i<5; i++) {
 			driveTrain.run();
 		}
-		Assert.assertTrue(currentForward > 0);
+		Assert.assertTrue(currentForwardOut > 0);
 		forwardInput = 0;
 		driveTrain.run();
-		Assert.assertTrue(currentForward == 0);
+		Assert.assertTrue(currentForwardOut == 0);
 	}
 	
 	/**
@@ -113,12 +126,73 @@ public class WheelSystemTest {
 	 */
 	@Test
 	public void testSkipToValue() {
-		newWheelSystem();
 		forwardInput = 1;
 		for(int i=0; i<6; i++) {
 			driveTrain.run();
 		}
-		Assert.assertTrue(currentForward == 1);
+		Assert.assertTrue(currentForwardOut == 1);
+	}
+	
+	/**
+	 * Tests that even though the rotation is squared, negative rotation remains negative
+	 */
+	@Test
+	public void testNegativeRotation() {
+		rotationInput = -0.5;
+		driveTrain.run();
+		Assert.assertTrue(currentRotationOut == -0.25);
+	}
+	
+	/**
+	 * Test that the direction of the drivetrain is toggled appropriately
+	 */
+	@Test
+	public void testDirectionToggle() {
+		forwardInput = 1;
+		invertInput = true;
+		driveTrain.run();
+		Assert.assertTrue(currentForwardOut == -0.6);
+		// Assure it works multiple times
+		driveTrain.run();
+		Assert.assertTrue(currentForwardOut == -0.84);
+		
+		// Test that it can be toggled back
+		newWheelSystem();
+		forwardInput = 1;
+		// Simulate button press to invert direction 
+		invertInput = true; 
+		driveTrain.run();
+		Assert.assertTrue(currentForwardOut == -0.6);
+		forwardInput = 0;
+		invertInput = false;
+		driveTrain.run();
+		
+		// Simulate second button press to return the toggle to the normal value
+		invertInput = true;
+		forwardInput = 1;
+		driveTrain.run();
+
+		Assert.assertTrue(currentForwardOut == 0.6);
+	}
+	/**
+	 *  Test that the gear is toggled appropriately
+	 */
+	@Test
+	public void testGearToggle() {
+		// Simulate first button press to shift the gear
+		boostInput = true;
+		driveTrain.run();
+		Assert.assertTrue(currentBoost == true);
+		
+		// Releasing button but the toggle state remains the same
+		boostInput = false;
+		driveTrain.run();
+		Assert.assertTrue(currentBoost == true);
+		
+		// Pressing the button a second time to flip the gear state back
+		boostInput = true;
+		driveTrain.run();
+		Assert.assertTrue(currentBoost == false);
 	}
 	
 	/**
@@ -141,17 +215,38 @@ public class WheelSystemTest {
 		public double rotationValue() {
 			return rotationInput;
 		}
+		
+		@Override
+		public boolean invert() {
+			return invertInput;
+		}
+		
+		@Override
+		public boolean boost() {
+			return boostInput;
+		}
 	}
 	
 	/**
 	 * A testable wheelSystem that sets the test class variables 
 	 * rather than driving the motors
 	 */
-	private class TestWheelSystem extends WheelSystem {
-		@Override 
-		public void driveWithRotation(double newForward, double newRotation) {
-			currentForward = newForward;
-			currentRotation = newRotation;
+	private class TestWheelSystem extends WheelSystem {		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.WheelSystem#arcadeControl(double, double)
+		 */
+		@Override
+		public void arcadeControl(double forward, double rotation) {
+			currentForwardOut = forward;
+			currentRotationOut = rotation;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.WheelSystem#setGearShifter(boolean)
+		 */
+		@Override
+		public void setGearShifter(boolean state) {
+			currentBoost = state;
 		}
 	}
 }

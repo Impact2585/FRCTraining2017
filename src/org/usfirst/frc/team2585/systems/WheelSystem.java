@@ -1,9 +1,11 @@
 package org.usfirst.frc.team2585.systems;
 
+import org.impact2585.lib2585.Toggler;
 import org.usfirst.frc.team2585.Environment;
 import org.usfirst.frc.team2585.RobotMap;
 import org.usfirst.frc.team2585.input.InputMethod;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -17,13 +19,27 @@ public class WheelSystem implements RobotSystem, Runnable {
 	private SpeedController rightLowerDrive;
 	private SpeedController leftDrive;
 	
-	private double currentForward;
+	protected double currentForward;
+	protected double currentRotation;
 	private double previousForward;
-	private double currentRotation;
 	
 	public static final double DEADZONE = 0.15;
 	public static final double RAMP = 0.6;
-
+	public static final double ROTATION_EXPONENT = 2.0;
+	
+	private Toggler invertDirectionToggler;
+	private Toggler boostToggler;
+	
+	private Solenoid gearShifter;
+	
+	/**
+	 * constructor for the WheelSystem that initializes the togglers
+	 */
+	public WheelSystem() {
+		invertDirectionToggler = new Toggler(false);
+		boostToggler = new Toggler(false);
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team2585.systems.Initializable#init(org.usfirst.frc.team2585.Environment)
 	 */
@@ -37,6 +53,8 @@ public class WheelSystem implements RobotSystem, Runnable {
 		
 		previousForward = 0;
 		currentForward = 0;
+		
+		gearShifter = new Solenoid(RobotMap.SOLENOID);
 	}
 	
 	/**
@@ -72,20 +90,39 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 * @param rotation value between -1 and 1 representing the left/right rotation
 	 */
 	public void driveWithRotation(double forward, double rotation) {
-		leftForward(forward + Math.pow(rotation, 2));
-		rightForward(forward - Math.pow(rotation, 2));
+		forward = applyDeadZone(rampedForward(forward));
+		currentForward = forward;
+		
+		rotation = applyDeadZone(applyRotationExponent(rotation));
+		
+		arcadeControl(forward, rotation);
+	}
+	
+	/**
+	 * This passes the signals directly to the motors, so ramping should already be complete 
+	 * @param forward the raw forward signal to send to the motors
+	 * @param rotation the raw rotation to add to the forward
+	 */
+	public void arcadeControl(double forward, double rotation) {
+		leftForward(forward + rotation);
+		rightForward(forward - rotation);
 	}
 	
 	/**
 	 * @return the calculated forwardMovement value taken from the input and ramped based on the previous movement value
 	 */
-	public double rampedForward() {
+	public double rampedForward(double forwardIn) {
 		// Go straight to 0 if the input is 0
-		if (input.forwardMovement() == 0) {
+		if (forwardIn == 0) {
 			return 0;
 		}
 		
-		double forwardDiff = input.forwardMovement() - previousForward;
+		// Negate forward if the inverted toggle is activated
+		if (invertDirectionToggler.state() == true) {
+			forwardIn *= -1;
+		}
+		
+		double forwardDiff = forwardIn - previousForward;
 		double forward;
 		if (Math.abs(forwardDiff) < 0.05) {
 			forward = input.forwardMovement();
@@ -94,6 +131,52 @@ public class WheelSystem implements RobotSystem, Runnable {
 		}
 		return forward;
 	}
+	
+	/**
+	 * @param rotation the input rotation value
+	 * @return the result of applying the exponent to the ROTATION_EXPONENT while maintaining its sign
+	 */
+	public double applyRotationExponent(double rotation) {
+		double sign = Math.signum(rotation);
+		
+		return sign * Math.pow(Math.abs(rotation), ROTATION_EXPONENT);
+	}
+	
+	/**
+	 *  Update the values of the boost toggler and direction inversion toggler
+	 *  Then perform the appropriate actions based on the resulting togler states
+	 */	
+	private void checkTogglers() {
+		// Invert the drive train direction if necessary
+		invertDirectionToggler.toggle(input.invert());
+		boostToggler.toggle(input.boost());
+	}
+	
+	/**
+	 * Included so that the tests can ensure the gears are shifted appropriately
+	 * @return boolean denoting the state of the gear shifter solenoid
+	 */
+	public boolean getBoostState() {
+		return boostToggler.state();
+	}
+	
+	/**
+	 * @param val the value to apply the deadzone to
+	 * @return either 0 or the value depending on whether it falls within the deadzone
+	 */
+	protected double applyDeadZone(double val) {
+		if (Math.abs(val) < DEADZONE) {
+			val = 0;
+		}
+		return val;
+	}
+	
+	/**
+	 * @param the state to set the gear shifter to
+	 */
+	public void setGearShifter(boolean state) {
+		gearShifter.set(state);
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
@@ -101,18 +184,10 @@ public class WheelSystem implements RobotSystem, Runnable {
 	@Override
 	public void run() {
 		previousForward = currentForward;
-		currentForward = rampedForward();
-		
-		currentRotation = input.rotationValue();
-		
-		if (Math.abs(currentRotation) < DEADZONE) {
-			currentRotation = 0;
-		}
-		if (Math.abs(currentForward) < DEADZONE) {
-			currentForward = 0;
-		}
-		
-		driveWithRotation(currentForward, currentRotation);
+		checkTogglers(); // Must be done before forward calculation
+
+		driveWithRotation(input.forwardMovement(), input.rotationValue());
+		setGearShifter(boostToggler.state());
 	}
 
 	/* (non-Javadoc)

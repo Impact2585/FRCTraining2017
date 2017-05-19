@@ -19,4 +19,18 @@ public abstract class InputMethod {
 	public double rotationValue() {
 		return 0;
 	}
+	
+	/**
+	 * @return boolean denoting whether the drivetrain direction should be inverted
+	 */
+	public boolean invert() {
+		return false;
+	}
+	
+	/**
+	 * @return boolean denoting whether the gear should be shifted
+	 */
+	public boolean boost() {
+		return false;
+	}
 }
