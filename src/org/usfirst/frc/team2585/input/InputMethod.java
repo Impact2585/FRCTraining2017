@@ -33,4 +33,11 @@ public abstract class InputMethod {
 	public boolean boost() {
 		return false;
 	}
+	
+	/**
+	 * @return boolean denoting whether the shooter should be toggled between on and off
+	 */
+	public boolean shoot() {
+		return false;
+	}
 }

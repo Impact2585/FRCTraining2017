@@ -146,7 +146,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 *  Update the values of the boost toggler and direction inversion toggler
 	 *  Then perform the appropriate actions based on the resulting togler states
 	 */	
-	private void checkTogglers() {
+	private void updateTogglers() {
 		// Invert the drive train direction if necessary
 		invertDirectionToggler.toggle(input.invert());
 		boostToggler.toggle(input.boost());
@@ -184,7 +184,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	@Override
 	public void run() {
 		previousForward = currentForward;
-		checkTogglers(); // Must be done before forward calculation
+		updateTogglers(); // Must be done before forward calculation
 
 		driveWithRotation(input.forwardMovement(), input.rotationValue());
 		setGearShifter(boostToggler.state());

@@ -6,11 +6,13 @@ import org.junit.Test;
 import org.usfirst.frc.team2585.input.InputMethod;
 import org.usfirst.frc.team2585.systems.WheelSystem;
 
+/**
+ * Unit tests for the WheelSystem
+ */
 public class WheelSystemTest {
-	
 	private TestWheelSystem driveTrain;
-	
 	private TestInput input;
+	
 	private double forwardInput;
 	private double rotationInput;
 	

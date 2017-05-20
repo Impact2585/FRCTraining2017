@@ -21,6 +21,7 @@ public class TeleopExecutor extends RunnableExecuter implements Initializable {
 	@Override
 	public void init(Environment environment) {
 		getRunnables().add(environment.getWheelSystem());
+		getRunnables().add(environment.getShooterSystem());
 	}
 
 }

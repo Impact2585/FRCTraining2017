@@ -46,8 +46,17 @@ public class XboxInput extends InputMethod {
 	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team2585.input.InputMethod#rotationValue()
 	 */
-	@Override public double rotationValue() {
+	@Override 
+	public double rotationValue() {
 		// Right joystick left/right for rotational movement
 		return controller.getRawAxis(XboxConstants.RIGHT_X_AXIS);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#shoot()
+	 */
+	@Override 
+	public boolean shoot() {
+		return controller.getRawButton(XboxConstants.RIGHT_BUMPER);
 	}
 }
