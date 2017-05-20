@@ -28,6 +28,22 @@ public class XboxInput extends InputMethod {
 	}
 	
 	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#invert()
+	 */
+	@Override
+	public boolean invert() {
+		return controller.getRawButton(XboxConstants.A_BUTTON);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#boost()
+	 */
+	@Override
+	public boolean boost() {
+		return controller.getRawButton(XboxConstants.B_BUTTON);
+	}
+	
+	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team2585.input.InputMethod#rotationValue()
 	 */
 	@Override public double rotationValue() {

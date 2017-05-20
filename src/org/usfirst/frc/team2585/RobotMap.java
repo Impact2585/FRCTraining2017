@@ -9,8 +9,8 @@ public interface RobotMap {
 	public static final int RIGHT_UPPER_DRIVE = 1;
 	public static final int RIGHT_LOWER_DRIVE= 2;
 	
-	// Could be only one LEFT_DRIVE, but this is more consistent
 	public static final int LEFT_DRIVE = 3;
 	
-
+	// For shifting gears
+	public static final int SOLENOID = 4;
 }

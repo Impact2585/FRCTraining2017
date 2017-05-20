@@ -15,11 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends ExecuterBasedRobot {
 
 	private static final long serialVersionUID = 5925353859431414919L;
-	
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
+
+	SendableChooser<AutonomousCommand> chooser; 
 	
 	private Environment environ;
 
@@ -29,59 +26,32 @@ public class Robot extends ExecuterBasedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		chooser = new SendableChooser<AutonomousCommand>();
+		chooser.addDefault("Straight Drive", new Commands.DriveStraight());
+		chooser.addObject("Drive Left", new Commands.DriveLeft());
+		chooser.addObject("Drive Right", new Commands.DriveRight());
+		SmartDashboard.putData("Auton choices", chooser);
 		
 		environ = new Environment(this);
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the
-	 * switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * This is run at the beginning of the autonomous period
+	 * It gets the chosen executor from the chooser and starts its execution thread
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-	}
-
-	/**
-	 * This function is called periodically during autonomous
-	 */
-	@Override
-	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
-		}
+		AutonomousCommand autoSelected = chooser.getSelected();
+		AutonomousExecutor executor = new AutonomousExecutor();
+		executor.init(environ);
+		executor.setTask(autoSelected);
+		
+		setExecuter(executor);
 	}
 	
 	@Override 
 	public void teleopInit() {
 		setExecuter(new TeleopExecutor(environ));
-	}
-
-	/**
-	 * This function is called periodically during operator control
-	 */
-	@Override
-	public void teleopPeriodic() {
-		getExecuter().execute();
 	}
 
 	/**
