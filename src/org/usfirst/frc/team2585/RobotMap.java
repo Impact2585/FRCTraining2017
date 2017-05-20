@@ -14,6 +14,6 @@ public interface RobotMap {
 	// For shifting gears
 	public static final int SOLENOID = 4;
 	
-	public static final int AGITATOR = 5;
-	public static final int SHOOTER = 6;
+	public static final int AGITATOR = 6;
+	public static final int SHOOTER = 7;
 }
