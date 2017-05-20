@@ -57,6 +57,6 @@ public class XboxInput extends InputMethod {
 	 */
 	@Override 
 	public boolean shoot() {
-		return controller.getRawButton(XboxConstants.RIGHT_BUMPER);
+		return controller.getRawButton(XboxConstants.RIGHT_TRIGGER);
 	}
 }
