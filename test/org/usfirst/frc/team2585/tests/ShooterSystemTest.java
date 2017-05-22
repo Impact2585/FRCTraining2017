@@ -25,9 +25,7 @@ public class ShooterSystemTest {
 	@Before
 	public void setUp() {
 		input = new TestInput();
-		
 		newShooterSystem();
-		
 		resetInput();
 	}
 	
@@ -87,6 +85,9 @@ public class ShooterSystemTest {
 	 * Input for testing that uses the input fields of ShooterSystemTest as input rather than reading the input from a remote
 	 */
 	public class TestInput extends InputMethod {
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldShoot()
+		 */
 		@Override
 		public boolean shouldShoot() {
 			return shooterInput;

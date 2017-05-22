@@ -218,11 +218,17 @@ public class WheelSystemTest {
 			return rotationInput;
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldInvert()
+		 */
 		@Override
 		public boolean shouldInvert() {
 			return invertInput;
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldBoost()
+		 */
 		@Override
 		public boolean shouldBoost() {
 			return boostInput;

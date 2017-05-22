@@ -3,8 +3,8 @@ package org.usfirst.frc.team2585.systems;
 import org.impact2585.lib2585.Toggler;
 import org.usfirst.frc.team2585.Environment;
 import org.usfirst.frc.team2585.RobotMap;
-import org.usfirst.frc.team2585.input.InputMethod;
 
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -88,8 +88,8 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	 */
 	@Override
 	public void destroy() {
-		agitator = null;
-		shooter = null;
+		((PWM) agitator).free();
+		((PWM) shooter).free();
 	}
 
 }

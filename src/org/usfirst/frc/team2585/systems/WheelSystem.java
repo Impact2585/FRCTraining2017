@@ -4,6 +4,7 @@ import org.impact2585.lib2585.Toggler;
 import org.usfirst.frc.team2585.Environment;
 import org.usfirst.frc.team2585.RobotMap;
 
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
@@ -185,8 +186,8 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	@Override
 	public void destroy() {
 		// Called when the wheelsystem is destroyed
-		rightUpperDrive = null;
-		rightLowerDrive = null;
-		leftDrive = null;
+		((PWM) rightUpperDrive).free();
+		((PWM) rightLowerDrive).free();
+		((PWM) leftDrive).free();
 	}
 }
