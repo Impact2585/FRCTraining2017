@@ -36,7 +36,6 @@ public class WheelSystemTest {
 		resetInput();
 	}
 	
-	
 	/**
 	 * Create a new wheel system with reset values of movement and rotation
 	 */
@@ -176,6 +175,7 @@ public class WheelSystemTest {
 
 		Assert.assertTrue(currentForwardOut == 0.6);
 	}
+	
 	/**
 	 *  Test that the gear is toggled appropriately
 	 */
@@ -219,12 +219,12 @@ public class WheelSystemTest {
 		}
 		
 		@Override
-		public boolean invert() {
+		public boolean shouldInvert() {
 			return invertInput;
 		}
 		
 		@Override
-		public boolean boost() {
+		public boolean shouldBoost() {
 			return boostInput;
 		}
 	}

@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj.Victor;
 /**
  * This system controls the ball shooter of the robot
  */
-public class ShooterSystem implements RobotSystem, Runnable {
-	private InputMethod input;
-	
+public class ShooterSystem extends RobotSystem implements Runnable {	
 	private SpeedController agitator;
 	private SpeedController shooter;
 	
@@ -35,19 +33,15 @@ public class ShooterSystem implements RobotSystem, Runnable {
 	 */
 	@Override
 	public void init(Environment environ) {
+		super.init(environ);
 		agitator = new Victor(RobotMap.AGITATOR);
-		input = environ.getInput();
-	}
-	
-	public void setInput(InputMethod newInput) {
-		input = newInput;
 	}
 	
 	/**
 	 * Updates the toggler states based on the current input
 	 */
 	private void updateToggler() {
-		shooterToggler.toggle(input.shoot());
+		shooterToggler.toggle(input.shouldShoot());
 	}
 	
 	/**

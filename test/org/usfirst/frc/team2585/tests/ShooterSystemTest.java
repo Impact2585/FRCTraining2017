@@ -88,12 +88,18 @@ public class ShooterSystemTest {
 	 */
 	public class TestInput extends InputMethod {
 		@Override
-		public boolean shoot() {
+		public boolean shouldShoot() {
 			return shooterInput;
 		}
 	}
 	
+	/**
+	 * A testable shooter system
+	 */
 	public class TestShooterSystem extends ShooterSystem {
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setMotors(double, double)
+		 */
 		@Override
 		public void setMotors(double shooterSpeed, double agitatorSpeed) {
 			currentShooterOut = shooterSpeed;

@@ -27,8 +27,8 @@ public class Environment extends RobotEnvironment{
 		wheels = new WheelSystem();
 		shooter = new ShooterSystem();
 		
-		shooter.init(this);
 		wheels.init(this);
+		shooter.init(this);
 	}
 	
 	/**

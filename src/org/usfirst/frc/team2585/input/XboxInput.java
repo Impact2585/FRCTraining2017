@@ -31,7 +31,7 @@ public class XboxInput extends InputMethod {
 	 * @see org.usfirst.frc.team2585.input.InputMethod#invert()
 	 */
 	@Override
-	public boolean invert() {
+	public boolean shouldInvert() {
 		return controller.getRawButton(XboxConstants.A_BUTTON);
 	}
 	
@@ -39,7 +39,7 @@ public class XboxInput extends InputMethod {
 	 * @see org.usfirst.frc.team2585.input.InputMethod#boost()
 	 */
 	@Override
-	public boolean boost() {
+	public boolean shouldBoost() {
 		return controller.getRawButton(XboxConstants.B_BUTTON);
 	}
 	
@@ -56,7 +56,7 @@ public class XboxInput extends InputMethod {
 	 * @see org.usfirst.frc.team2585.input.InputMethod#shoot()
 	 */
 	@Override 
-	public boolean shoot() {
-		return controller.getRawButton(XboxConstants.RIGHT_TRIGGER);
+	public boolean shouldShoot() {
+		return controller.getRawAxis(XboxConstants.RIGHT_TRIGGER) > 0.15;
 	}
 }

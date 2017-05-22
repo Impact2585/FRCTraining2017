@@ -3,7 +3,6 @@ package org.usfirst.frc.team2585.systems;
 import org.impact2585.lib2585.Toggler;
 import org.usfirst.frc.team2585.Environment;
 import org.usfirst.frc.team2585.RobotMap;
-import org.usfirst.frc.team2585.input.InputMethod;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -12,9 +11,7 @@ import edu.wpi.first.wpilibj.Victor;
 /**
  * This system controls the movement of the robot
  */
-public class WheelSystem implements RobotSystem, Runnable {
-	private InputMethod input;
-	
+public class WheelSystem extends RobotSystem implements Runnable {	
 	private SpeedController rightUpperDrive;
 	private SpeedController rightLowerDrive;
 	private SpeedController leftDrive;
@@ -45,25 +42,17 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 */
 	@Override
 	public void init(Environment environ) {
+		super.init(environ);
+		
 		rightUpperDrive = new Victor(RobotMap.RIGHT_UPPER_DRIVE);
 		rightLowerDrive = new Victor(RobotMap.RIGHT_LOWER_DRIVE);
 		leftDrive = new Victor(RobotMap.LEFT_DRIVE);
-		
-		input = environ.getInput();
-		
+				
 		previousForward = 0;
 		currentForward = 0;
 		
 		gearShifter = new Solenoid(RobotMap.SOLENOID);
 	}
-	
-	/**
-	 * @param newInput the input to set
-	 */
-	public synchronized void setInput(InputMethod newInput) {
-		input = newInput;
-	}
-	
 	
 	/**
 	 * Move the speed controllers on the left
@@ -148,8 +137,8 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 */	
 	private void updateTogglers() {
 		// Invert the drive train direction if necessary
-		invertDirectionToggler.toggle(input.invert());
-		boostToggler.toggle(input.boost());
+		invertDirectionToggler.toggle(input.shouldInvert());
+		boostToggler.toggle(input.shouldBoost());
 	}
 	
 	/**
