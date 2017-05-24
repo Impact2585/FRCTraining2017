@@ -6,11 +6,13 @@ import org.junit.Test;
 import org.usfirst.frc.team2585.input.InputMethod;
 import org.usfirst.frc.team2585.systems.WheelSystem;
 
+/**
+ * Unit tests for the WheelSystem
+ */
 public class WheelSystemTest {
-	
 	private TestWheelSystem driveTrain;
-	
 	private TestInput input;
+	
 	private double forwardInput;
 	private double rotationInput;
 	
@@ -33,7 +35,6 @@ public class WheelSystemTest {
 		
 		resetInput();
 	}
-	
 	
 	/**
 	 * Create a new wheel system with reset values of movement and rotation
@@ -174,6 +175,7 @@ public class WheelSystemTest {
 
 		Assert.assertTrue(currentForwardOut == 0.6);
 	}
+	
 	/**
 	 *  Test that the gear is toggled appropriately
 	 */
@@ -216,13 +218,19 @@ public class WheelSystemTest {
 			return rotationInput;
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldInvert()
+		 */
 		@Override
-		public boolean invert() {
+		public boolean shouldInvert() {
 			return invertInput;
 		}
 		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldBoost()
+		 */
 		@Override
-		public boolean boost() {
+		public boolean shouldBoost() {
 			return boostInput;
 		}
 	}

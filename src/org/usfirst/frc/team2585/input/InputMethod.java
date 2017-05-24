@@ -23,14 +23,21 @@ public abstract class InputMethod {
 	/**
 	 * @return boolean denoting whether the drivetrain direction should be inverted
 	 */
-	public boolean invert() {
+	public boolean shouldInvert() {
 		return false;
 	}
 	
 	/**
 	 * @return boolean denoting whether the gear should be shifted
 	 */
-	public boolean boost() {
+	public boolean shouldBoost() {
+		return false;
+	}
+	
+	/**
+	 * @return boolean denoting whether the shooter should be toggled between on and off
+	 */
+	public boolean shouldShoot() {
 		return false;
 	}
 }

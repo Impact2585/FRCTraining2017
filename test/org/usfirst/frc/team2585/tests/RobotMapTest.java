@@ -12,10 +12,10 @@ public class RobotMapTest {
 	
 	
 	/**
-	 * Test the robotMap
+	 * Test that the robotMap doesn't use any ports twice
 	 */
 	@Test
-	public void test() {
+	public void testDifferentPorts() {
 		// Make sure that the right motors are using two different ports
 		Assert.assertTrue(RobotMap.RIGHT_LOWER_DRIVE != RobotMap.RIGHT_UPPER_DRIVE);
 		
@@ -23,5 +23,4 @@ public class RobotMapTest {
 		Assert.assertTrue(RobotMap.LEFT_DRIVE != RobotMap.RIGHT_LOWER_DRIVE);
 		Assert.assertTrue(RobotMap.LEFT_DRIVE != RobotMap.RIGHT_UPPER_DRIVE);
 	}
-
 }
