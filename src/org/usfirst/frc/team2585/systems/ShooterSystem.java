@@ -88,8 +88,11 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	 */
 	@Override
 	public void destroy() {
-		((PWM) agitator).free();
-		((PWM) shooter).free();
+		if (agitator instanceof PWM) {
+			((PWM) agitator).free();
+		}
+		if (shooter instanceof PWM) {
+			((PWM) shooter).free();
+		}
 	}
-
 }

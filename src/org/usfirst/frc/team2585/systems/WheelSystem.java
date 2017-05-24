@@ -186,8 +186,14 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	@Override
 	public void destroy() {
 		// Called when the wheelsystem is destroyed
-		((PWM) rightUpperDrive).free();
-		((PWM) rightLowerDrive).free();
-		((PWM) leftDrive).free();
+		if (rightUpperDrive instanceof PWM) {
+			((PWM) rightUpperDrive).free();
+		}
+		if (rightLowerDrive instanceof PWM) {
+			((PWM) rightLowerDrive).free();
+		}
+		if (leftDrive instanceof PWM) {
+			((PWM) leftDrive).free();
+		}
 	}
 }
