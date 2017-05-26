@@ -86,7 +86,6 @@ public class IntakeSystemTest {
 		for (int i=0; i<10; i++) {
 			intakeSystem.run();
 		}
-		System.out.println(intakeOutput);
 		Assert.assertTrue(intakeOutput == 1);
 	}
 	
