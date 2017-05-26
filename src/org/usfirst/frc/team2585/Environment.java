@@ -3,6 +3,7 @@ package org.usfirst.frc.team2585;
 import org.impact2585.lib2585.RobotEnvironment;
 import org.usfirst.frc.team2585.input.InputMethod;
 import org.usfirst.frc.team2585.input.XboxInput;
+import org.usfirst.frc.team2585.systems.IntakeSystem;
 import org.usfirst.frc.team2585.systems.ShooterSystem;
 import org.usfirst.frc.team2585.systems.WheelSystem;
 
@@ -15,7 +16,7 @@ public class Environment extends RobotEnvironment{
 	private InputMethod input;
 	private WheelSystem wheels;
 	private ShooterSystem shooter;
-	
+	private IntakeSystem intake;
 	
 	/**
 	 * Initializes the systems
@@ -26,9 +27,11 @@ public class Environment extends RobotEnvironment{
 		input = new XboxInput();
 		wheels = new WheelSystem();
 		shooter = new ShooterSystem();
+		intake = new IntakeSystem();
 		
 		wheels.init(this);
 		shooter.init(this);
+		intake.init(this);
 	}
 	
 	/**
@@ -44,7 +47,12 @@ public class Environment extends RobotEnvironment{
 	public ShooterSystem getShooterSystem() {
 		return shooter;
 	}
-	
+	/*
+	 * @return the IntakeSystem
+	 */
+	public IntakeSystem getIntakeSystem() {
+		return intake;
+	}
 	
 	/**
 	 * @return the input
@@ -60,5 +68,6 @@ public class Environment extends RobotEnvironment{
 	public void destroy() {
 		wheels.destroy();
 		shooter.destroy();
+		intake.destroy();
 	}
 }

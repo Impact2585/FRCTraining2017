@@ -40,4 +40,11 @@ public abstract class InputMethod {
 	public boolean shouldShoot() {
 		return false;
 	}
+	
+	/**
+	 * @return whether the intake system should be running or not
+	 */
+	public boolean intake() {
+		return false;
+	}
 }
