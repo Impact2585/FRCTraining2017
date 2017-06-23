@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2585;
+package org.usfirst.frc.team2585.robot;
 
 /**
  * A command to be passed to the autonomous executor

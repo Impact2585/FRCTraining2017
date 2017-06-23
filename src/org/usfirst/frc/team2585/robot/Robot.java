@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2585;
+package org.usfirst.frc.team2585.robot;
 
 import org.impact2585.lib2585.ExecuterBasedRobot;
 
@@ -19,6 +19,7 @@ public class Robot extends ExecuterBasedRobot {
 	SendableChooser<AutonomousCommand> chooser; 
 	
 	private Environment environ;
+	private Commands commands;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -27,12 +28,13 @@ public class Robot extends ExecuterBasedRobot {
 	@Override
 	public void robotInit() {
 		chooser = new SendableChooser<AutonomousCommand>();
-		chooser.addDefault("Straight Drive", new Commands.DriveStraight());
-		chooser.addObject("Drive Left", new Commands.DriveLeft());
-		chooser.addObject("Drive Right", new Commands.DriveRight());
-		SmartDashboard.putData("Auton choices", chooser);
-		
 		environ = new Environment(this);
+		
+		commands = new Commands(environ);
+		chooser.addDefault("Straight Drive", commands.new DriveStraight());
+		chooser.addObject("Drive Left", commands.new DriveLeft());
+		chooser.addObject("Drive Right", commands.new DriveRight());
+		SmartDashboard.putData("Auton choices", chooser);
 	}
 
 	/**

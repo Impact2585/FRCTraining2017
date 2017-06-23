@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2585;
+package org.usfirst.frc.team2585.robot;
 
 import org.impact2585.lib2585.RunnableExecuter;
 import org.usfirst.frc.team2585.systems.Initializable;
@@ -25,7 +25,6 @@ public class AutonomousExecutor extends RunnableExecuter implements Initializabl
 	}
 	
 	public void setTask(AutonomousCommand command) {
-		
 		task = command;
 	}
 	

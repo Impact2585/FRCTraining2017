@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2585.systems;
 
 import org.impact2585.lib2585.Toggler;
-import org.usfirst.frc.team2585.Environment;
-import org.usfirst.frc.team2585.RobotMap;
+import org.usfirst.frc.team2585.robot.Environment;
+import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -91,8 +91,8 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	 * @param rotation the raw rotation to add to the forward
 	 */
 	public void arcadeControl(double forward, double rotation) {
-		leftForward(forward + rotation);
-		rightForward(forward - rotation);
+		leftForward(forward - rotation);
+		rightForward(forward + rotation);
 	}
 	
 	/**
