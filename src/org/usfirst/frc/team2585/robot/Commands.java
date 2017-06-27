@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2585;
+package org.usfirst.frc.team2585.robot;
 
 import org.usfirst.frc.team2585.systems.WheelSystem;
 
@@ -52,7 +52,7 @@ public class Commands {
 	 * Autonomous command that that drives the robot to the left first and then turns back the same amount to go forward
 	 * It drives to the left for 0.5 seconds and forward for 1.5 seconds
 	 */
-	public static class DriveLeft implements AutonomousCommand {
+	public class DriveLeft implements AutonomousCommand {
 		private static final int timeToTurnLeft = 500;
 		private static final int timeToDriveLeft = timeToTurnLeft + 500;
 		// Turn back the same amount
@@ -82,7 +82,7 @@ public class Commands {
 	 * Autonomous command that drives the robot to the right and then turns back an equal amount to drive forward
 	 * It drives to the right for 0.5 seconds and forward for 1.5 seconds
 	 */
-	public static class DriveRight implements AutonomousCommand {
+	public class DriveRight implements AutonomousCommand {
 		private static final int timeToTurnRight = 500;
 		private static final int timeToDriveRight = timeToTurnRight + 500;
 		// Turn back the same amount
@@ -111,7 +111,7 @@ public class Commands {
 	/**
 	 * Autonomous command that drives the robot straight for 1.5 seconds and then stops
 	 */
-	public static class DriveStraight implements AutonomousCommand {
+	public class DriveStraight implements AutonomousCommand {
 		private static final int timeToDrive = 1500;
 
 		@Override

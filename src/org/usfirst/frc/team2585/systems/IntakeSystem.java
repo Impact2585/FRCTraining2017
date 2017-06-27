@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2585.systems;
 
-import org.usfirst.frc.team2585.Environment;
-import org.usfirst.frc.team2585.RobotMap;
 import org.usfirst.frc.team2585.input.InputMethod;
+import org.usfirst.frc.team2585.robot.Environment;
+import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SpeedController;

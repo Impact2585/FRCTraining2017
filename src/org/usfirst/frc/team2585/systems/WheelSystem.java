@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2585.systems;
 
 import org.impact2585.lib2585.Toggler;
-import org.usfirst.frc.team2585.Environment;
-import org.usfirst.frc.team2585.RobotMap;
+import org.usfirst.frc.team2585.robot.Environment;
+import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj.Victor;
  * This system controls the movement of the robot
  */
 public class WheelSystem extends RobotSystem implements Runnable {	
-	private SpeedController rightUpperDrive;
-	private SpeedController rightLowerDrive;
+	private SpeedController rightDrive;
 	private SpeedController leftDrive;
 	
 	protected double currentForward;
@@ -45,8 +44,7 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	public void init(Environment environ) {
 		super.init(environ);
 		
-		rightUpperDrive = new Victor(RobotMap.RIGHT_UPPER_DRIVE);
-		rightLowerDrive = new Victor(RobotMap.RIGHT_LOWER_DRIVE);
+		rightDrive = new Victor(RobotMap.RIGHT_DRIVE);
 		leftDrive = new Victor(RobotMap.LEFT_DRIVE);
 				
 		previousForward = 0;
@@ -70,8 +68,7 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	 * @param amount value between -1 and 1 representing how much to move the left speedControllers
 	 */
 	public void rightForward(double amount) {
-		rightUpperDrive.set(amount);
-		rightLowerDrive.set(amount);
+		rightDrive.set(amount);
 	}
 	
 	/**
@@ -94,8 +91,8 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	 * @param rotation the raw rotation to add to the forward
 	 */
 	public void arcadeControl(double forward, double rotation) {
-		leftForward(forward + rotation);
-		rightForward(forward - rotation);
+		leftForward(forward - rotation);
+		rightForward(forward + rotation);
 	}
 	
 	/**
@@ -186,11 +183,8 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	@Override
 	public void destroy() {
 		// Called when the wheelsystem is destroyed
-		if (rightUpperDrive instanceof PWM) {
-			((PWM) rightUpperDrive).free();
-		}
-		if (rightLowerDrive instanceof PWM) {
-			((PWM) rightLowerDrive).free();
+		if (rightDrive instanceof PWM) {
+			((PWM) rightDrive).free();
 		}
 		if (leftDrive instanceof PWM) {
 			((PWM) leftDrive).free();

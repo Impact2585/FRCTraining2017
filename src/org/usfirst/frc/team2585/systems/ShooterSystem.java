@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2585.systems;
 
 import org.impact2585.lib2585.Toggler;
-import org.usfirst.frc.team2585.Environment;
-import org.usfirst.frc.team2585.RobotMap;
+import org.usfirst.frc.team2585.robot.Environment;
+import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -35,6 +35,7 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	public void init(Environment environ) {
 		super.init(environ);
 		agitator = new Victor(RobotMap.AGITATOR);
+		shooter = new Victor(RobotMap.SHOOTER);
 	}
 	
 	/**
