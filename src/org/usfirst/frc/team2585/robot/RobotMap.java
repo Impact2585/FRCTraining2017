@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2585;
+package org.usfirst.frc.team2585.robot;
 
 /**
  * This class contains the mappings of the Robot's output pins

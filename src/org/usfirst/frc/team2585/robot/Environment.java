@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2585;
+package org.usfirst.frc.team2585.robot;
 
 import org.impact2585.lib2585.RobotEnvironment;
 import org.usfirst.frc.team2585.input.InputMethod;
