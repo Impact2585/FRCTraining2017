@@ -2,6 +2,7 @@ package org.usfirst.frc.team2585.robot;
 
 import org.impact2585.lib2585.RunnableExecuter;
 import org.usfirst.frc.team2585.systems.Initializable;
+import org.usfirst.frc.team2585.systems.RobotSystem;
 
 /**
  * Executor for the teleop period that uses input from a controller to control the robot's actions
@@ -23,9 +24,9 @@ public class TeleopExecutor extends RunnableExecuter implements Initializable {
 	 */
 	@Override
 	public void init(Environment environment) {
-		getRunnables().add(environment.getWheelSystem());
-		getRunnables().add(environment.getShooterSystem());
-		getRunnables().add(environment.getIntakeSystem());
+		for (RobotSystem system : environment.getAllSystems()) {
+			getRunnables().add((Runnable) system);
+		}
 	}
 
 }

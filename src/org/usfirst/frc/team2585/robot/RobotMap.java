@@ -12,4 +12,5 @@ public interface RobotMap {
 	public static final int INTAKE_MOTOR = 5;
 	public static final int AGITATOR = 6;
 	public static final int SHOOTER = 7;
+	public static final int LIFT_MOTOR = 8;
 }

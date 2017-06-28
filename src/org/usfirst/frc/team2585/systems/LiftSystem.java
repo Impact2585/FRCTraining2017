@@ -9,20 +9,20 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
- * A system of one motor that controls the ball intake of the robot
+ * A system of one motor that lifts and lowers the robot
  */
-public class IntakeSystem extends RobotSystem implements Runnable {
-	private SpeedController intakeMotor;
+public class LiftSystem extends RobotSystem implements Runnable {
+	private SpeedController liftMotor;
 	private static final double RAMP = 0.6;
 	private double previousMotorSpeed = 0;
-
+	
 	/* (non-Javadoc)
-	 * @see org.usfirst.frc.team2585.systems.Initializable#init(org.usfirst.frc.team2585.Environment)
+	 * @see org.usfirst.frc.team2585.systems.RobotSystem#init(org.usfirst.frc.team2585.Environment)
 	 */
 	@Override
 	public void init(Environment environ) {
 		super.init(environ);
-		intakeMotor = new Spark(RobotMap.LIFT_MOTOR);
+		liftMotor = new Spark(RobotMap.INTAKE_MOTOR);
 	}
 	
 	/**
@@ -36,29 +36,34 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	 * @param inSpeed the input speed to be ramped
 	 * @return the value after ramping to be passed on to the motors
 	 */
-	private double rampedInput(double inSpeed) {
-		double currentSpeed = previousMotorSpeed + RAMP * (inSpeed - previousMotorSpeed);
-		if (currentSpeed > 0.95) {
-			currentSpeed = 1;
+	private double rampedInput(double inLift) {		
+		double liftDiff = inLift - previousMotorSpeed;
+		double lift;
+		if (Math.abs(liftDiff) < 0.05) {
+			lift = inLift;
+		} else {
+			lift = previousMotorSpeed + RAMP * (liftDiff);
 		}
-		return currentSpeed;
+		return lift;
 	}
 	
 	/**
 	 * @param speed the speed to set the intake motor to
 	 */
 	public void setMotorSpeed(double speed) {
-		intakeMotor.set(speed);
+		liftMotor.set(speed);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
 		double newSpeed;
-		if (input.intake()) {
+		if (input.shouldLiftUp()) {
 			newSpeed = rampedInput(1);
+		} else if (input.shouldLiftDown()) {
+			newSpeed = rampedInput(-1);
 		} else {
 			newSpeed = 0;
 		}
@@ -71,8 +76,8 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	 */
 	@Override
 	public void destroy() {
-		if (intakeMotor instanceof PWM) {
-			((PWM) intakeMotor).free();
+		if (liftMotor instanceof PWM) {
+			((PWM) liftMotor).free();
 		}
 	}
 }

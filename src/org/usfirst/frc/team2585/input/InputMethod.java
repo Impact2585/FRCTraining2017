@@ -47,4 +47,18 @@ public abstract class InputMethod {
 	public boolean intake() {
 		return false;
 	}
+	
+	/**
+	 * @return whether the lift system should lift up the robot
+	 */
+	public boolean shouldLiftUp() {
+		return false;
+	}
+	
+	/**
+	 * @return whether the lift system should lower the robot
+	 */
+	public boolean shouldLiftDown() {
+		return false;
+	}
 }

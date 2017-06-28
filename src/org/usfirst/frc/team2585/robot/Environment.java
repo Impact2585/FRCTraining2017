@@ -1,9 +1,14 @@
 package org.usfirst.frc.team2585.robot;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 import org.impact2585.lib2585.RobotEnvironment;
 import org.usfirst.frc.team2585.input.InputMethod;
 import org.usfirst.frc.team2585.input.XboxInput;
 import org.usfirst.frc.team2585.systems.IntakeSystem;
+import org.usfirst.frc.team2585.systems.LiftSystem;
+import org.usfirst.frc.team2585.systems.RobotSystem;
 import org.usfirst.frc.team2585.systems.ShooterSystem;
 import org.usfirst.frc.team2585.systems.WheelSystem;
 
@@ -13,10 +18,8 @@ import org.usfirst.frc.team2585.systems.WheelSystem;
 public class Environment extends RobotEnvironment{
 	
 	private static final long serialVersionUID = 6320366174026889629L;
+	private HashMap<String, RobotSystem> systems;
 	private InputMethod input;
-	private WheelSystem wheels;
-	private ShooterSystem shooter;
-	private IntakeSystem intake;
 	
 	/**
 	 * Initializes the systems
@@ -25,33 +28,31 @@ public class Environment extends RobotEnvironment{
 	public Environment(Robot robot) {
 		super(robot);
 		input = new XboxInput();
-		wheels = new WheelSystem();
-		shooter = new ShooterSystem();
-		intake = new IntakeSystem();
 		
-		wheels.init(this);
-		shooter.init(this);
-		intake.init(this);
+		systems = new HashMap<String, RobotSystem>();
+		systems.put("wheelSystem", new WheelSystem());
+		systems.put("shooterSystem", new ShooterSystem());
+		systems.put("intakeSystem", new IntakeSystem());
+		systems.put("liftSystem", new LiftSystem());
+		
+		for (RobotSystem system : systems.values()) {
+			system.init(this);
+		}
 	}
 	
 	/**
-	 * @return the WheelSystem
+	 * @param systemName the name of the system to return 
+	 * @return the environment's instance of the RobotSystem with the given name
 	 */
-	public WheelSystem getWheelSystem() {
-		return wheels;
+	public RobotSystem getSystem(String systemName) {
+		return systems.get(systemName);
 	}
 	
 	/**
-	 * @return the ShooterSystem
+	 * @return a collection of all of the environment's systems
 	 */
-	public ShooterSystem getShooterSystem() {
-		return shooter;
-	}
-	/*
-	 * @return the IntakeSystem
-	 */
-	public IntakeSystem getIntakeSystem() {
-		return intake;
+	public Collection<RobotSystem> getAllSystems() {
+		return systems.values();
 	}
 	
 	/**
@@ -66,8 +67,8 @@ public class Environment extends RobotEnvironment{
 	 */
 	@Override
 	public void destroy() {
-		wheels.destroy();
-		shooter.destroy();
-		intake.destroy();
+		for (RobotSystem system : systems.values()) {
+			system.destroy();
+		}
 	}
 }
