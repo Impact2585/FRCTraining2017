@@ -64,7 +64,7 @@ public class XboxInput extends InputMethod {
 	 * @see org.usfirst.frc.team2585.input.InputMethod#intake()
 	 */
 	public boolean intake() {
-		return controller.getRawButton(XboxConstants.LEFT_TRIGGER);
+		return controller.getRawAxis(XboxConstants.LEFT_TRIGGER) > 0.2;
 	}
 	
 	/* (non-Javadoc)
