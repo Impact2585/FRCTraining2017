@@ -5,8 +5,8 @@ import org.usfirst.frc.team2585.robot.Environment;
 import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
 
 /**
  * A system of one motor that lifts and lowers the robot
@@ -22,7 +22,7 @@ public class LiftSystem extends RobotSystem implements Runnable {
 	@Override
 	public void init(Environment environ) {
 		super.init(environ);
-		liftMotor = new Victor(RobotMap.INTAKE_MOTOR);
+		liftMotor = new Spark(RobotMap.INTAKE_MOTOR);
 	}
 	
 	/**

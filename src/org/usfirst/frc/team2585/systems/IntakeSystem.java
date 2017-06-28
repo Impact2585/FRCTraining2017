@@ -5,8 +5,8 @@ import org.usfirst.frc.team2585.robot.Environment;
 import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
 
 /**
  * A system of one motor that controls the ball intake of the robot
@@ -22,7 +22,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	@Override
 	public void init(Environment environ) {
 		super.init(environ);
-		intakeMotor = new Victor(RobotMap.INTAKE_MOTOR);
+		intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 	}
 	
 	/**
