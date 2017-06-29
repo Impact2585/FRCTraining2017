@@ -50,7 +50,7 @@ public class IntakeSystemTest {
 	public void testSingleRamping() {
 		intakeTriggered = true;
 		intakeSystem.run();
-		Assert.assertTrue(intakeOutput == -0.6);
+		Assert.assertTrue(intakeOutput == 0.6);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class IntakeSystemTest {
 		intakeTriggered = true;
 		intakeSystem.run();
 		intakeSystem.run();
-		Assert.assertTrue(intakeOutput == -0.84);
+		Assert.assertTrue(intakeOutput == 0.84);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class IntakeSystemTest {
 	}
 	
 	/**
-	 * Assures that when the ramped value approaches -1 it skips directly to -1 rather than approaching endlessly
+	 * Assures that when the ramped value approaches 1 it skips directly to 1 rather than approaching endlessly
 	 */
 	@Test
 	public void skipsToOne() {
@@ -86,7 +86,7 @@ public class IntakeSystemTest {
 		for (int i=0; i<10; i++) {
 			intakeSystem.run();
 		}
-		Assert.assertTrue(intakeOutput == -1);
+		Assert.assertTrue(intakeOutput == 1);
 	}
 	
 	/**

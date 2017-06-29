@@ -38,8 +38,8 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	 */
 	private double rampedInput(double inSpeed) {
 		double currentSpeed = previousMotorSpeed + RAMP * (inSpeed - previousMotorSpeed);
-		if (currentSpeed < -0.95) {
-			currentSpeed = -1;
+		if (currentSpeed > 0.95) {
+			currentSpeed = 1;
 		}
 		return currentSpeed;
 	}
@@ -48,7 +48,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	 * @param speed the speed to set the intake motor to
 	 */
 	public void setMotorSpeed(double speed) {
-		intakeMotor.set(speed);
+		intakeMotor.set(-speed); // invert the intake direction
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +58,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	public void run() {
 		double newSpeed;
 		if (input.intake()) {
-			newSpeed = rampedInput(-1);
+			newSpeed = rampedInput(1);
 		} else {
 			newSpeed = 0;
 		}

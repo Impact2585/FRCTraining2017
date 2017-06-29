@@ -51,9 +51,9 @@ public class ShooterSystemTest {
 	public void testShooterMotorRamps() {
 		shooterInput = true;
 		shooter.run();
-		Assert.assertTrue(currentShooterOut == 0.6);
+		Assert.assertTrue(currentShooterOut == -0.6);
 		shooter.run();
-		Assert.assertTrue(currentShooterOut == 0.84);
+		Assert.assertTrue(currentShooterOut == -0.84);
 	}
 	
 	/**
