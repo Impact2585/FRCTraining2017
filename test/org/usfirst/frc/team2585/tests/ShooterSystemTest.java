@@ -15,9 +15,11 @@ public class ShooterSystemTest {
 	private TestInput input;
 	
 	private boolean shooterInput;
+	private boolean loadInput;
 	
 	private double currentAgitatorOut;
 	private double currentShooterOut;
+	private double currentLoaderOut;
 		
 	/**
 	 * Set up the input and shooter system to be ready for a test
@@ -51,9 +53,10 @@ public class ShooterSystemTest {
 	public void testShooterMotorRamps() {
 		shooterInput = true;
 		shooter.run();
-		Assert.assertTrue(currentShooterOut == -0.6);
+		Assert.assertTrue(currentShooterOut == shooter.RAMP * shooter.shooterMultiplier);
+		Assert.assertTrue(currentShooterOut > 0 && currentShooterOut < 1); // doesn't go directly to one
 		shooter.run();
-		Assert.assertTrue(currentShooterOut == -0.84);
+		Assert.assertTrue(currentShooterOut > 0 && currentShooterOut < 1);
 	}
 	
 	/**
@@ -70,14 +73,24 @@ public class ShooterSystemTest {
 		Assert.assertTrue(currentShooterOut == 0);
 	}
 	
-	/**
-	 * Test that the agitator is being set to run at half the speed of the shooter
-	 */
 	@Test
-	public void testAgitatorIsHalf() {
+	public void testShooterMultiplier() {
 		shooterInput = true;
-		shooter.run();
-		Assert.assertTrue(currentAgitatorOut == currentShooterOut / 2);
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		Assert.assertTrue(currentShooterOut == shooter.shooterMultiplier);
+	}
+	
+	@Test
+	public void testLoaderMultiplier() {
+		loadInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		
+		Assert.assertTrue(currentLoaderOut == shooter.loaderMultiplier);
+		Assert.assertTrue(currentAgitatorOut == shooter.agitatorMultiplier);
 	}
 	
 	
@@ -89,8 +102,13 @@ public class ShooterSystemTest {
 		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldShoot()
 		 */
 		@Override
-		public boolean shouldShoot() {
+		public boolean shouldToggleShooter() {
 			return shooterInput;
+		}
+		
+		@Override
+		public boolean shouldLoad() {
+			return loadInput;
 		}
 	}
 	
@@ -102,8 +120,23 @@ public class ShooterSystemTest {
 		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setMotors(double, double)
 		 */
 		@Override
-		public void setMotors(double shooterSpeed, double agitatorSpeed) {
+		public void setShooter(double shooterSpeed) {
 			currentShooterOut = shooterSpeed;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setLoader(double)
+		 */
+		@Override
+		public void setLoader(double loaderSpeed) {
+			currentLoaderOut = loaderSpeed;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setAgitator(double)
+		 */
+		@Override
+		public void setAgitator(double agitatorSpeed) {
 			currentAgitatorOut = agitatorSpeed;
 		}
 	}

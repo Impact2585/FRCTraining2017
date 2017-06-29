@@ -13,6 +13,7 @@ public interface RobotMap {
 	public static final int AGITATOR = 6;
 	public static final int SHOOTER = 7;
 	public static final int LIFT_MOTOR = 8;
+	public static final int LOADER = 9;
 	
 	// Digital io
 	public static final int SOLENOID = 4;

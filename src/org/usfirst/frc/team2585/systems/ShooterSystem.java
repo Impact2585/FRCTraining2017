@@ -14,10 +14,17 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class ShooterSystem extends RobotSystem implements Runnable {	
 	private SpeedController agitator;
 	private SpeedController shooter;
+	private SpeedController loader;
 	
 	private double prevShooterSpeed;
+	private double prevLoaderSpeed;
 	
-	public static final double RAMP = 0.6;
+	public final double shooterMultiplier = 0.8;
+	public final double loaderMultiplier = 0.9;
+	public final double agitatorMultiplier = 0.7;
+	
+	
+	public final double RAMP = 0.6;
 	
 	private Toggler shooterToggler;
 	
@@ -36,13 +43,14 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 		super.init(environ);
 		agitator = new Spark(RobotMap.AGITATOR);
 		shooter = new Spark(RobotMap.SHOOTER);
+		loader = new Spark(RobotMap.LOADER);
 	}
 	
 	/**
 	 * Updates the toggler states based on the current input
 	 */
 	private void updateToggler() {
-		shooterToggler.toggle(input.shouldShoot());
+		shooterToggler.toggle(input.shouldToggleShooter());
 	}
 	
 	/**
@@ -54,8 +62,7 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 			newShooterSpeed = 1.0;
 		}
 		
-		// Run the agitator motor at half the speed of the shooter motor
-		setMotors(newShooterSpeed, newShooterSpeed / 2);
+		setShooter(newShooterSpeed * shooterMultiplier);
 		
 		prevShooterSpeed = newShooterSpeed;
 	}
@@ -65,8 +72,37 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	 * @param shooterSpeed the raw speed to be sent to the shooter motor
 	 * @param agitatorSpeed the raw speed to be sent to the agitator motor
 	 */
-	protected void setMotors(double shooterSpeed, double agitatorSpeed) {
+	protected void setShooter(double shooterSpeed) {
 		shooter.set(shooterSpeed);
+		
+	}
+	
+	/**
+	 * @param loaderInput the unramped new input value for the loader
+	 */
+	private void rampAndLoad(double loaderInput) {
+		double newLoaderSpeed = prevLoaderSpeed + RAMP * (loaderInput - prevLoaderSpeed);
+		if (newLoaderSpeed > 0.95) {
+			newLoaderSpeed = 1.0;
+		}
+		
+		setLoader(newLoaderSpeed * loaderMultiplier);
+		setAgitator(newLoaderSpeed * agitatorMultiplier);
+		
+		prevLoaderSpeed = newLoaderSpeed;
+	}
+	
+	/**
+	 * @param loaderSpeed the speed to set the loader motor to
+	 */
+	public void setLoader(double loaderSpeed) {
+		loader.set(loaderSpeed);
+	}
+	
+	/**
+	 * @param agitatorSpeed the speed to set the agitator motor to
+	 */
+	public void setAgitator(double agitatorSpeed) {
 		agitator.set(agitatorSpeed);
 	}
 	
@@ -76,11 +112,19 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	@Override
 	public void run() {
 		updateToggler();
+		// Shooter
 		if (shooterToggler.state() == true) {
 			rampAndShoot(1.0);
 		} else {
-			setMotors(0, 0);
+			setShooter(0);
 			prevShooterSpeed = 0;
+		}
+		
+		if (input.shouldLoad()) {
+			rampAndLoad(1.0);
+		} else {
+			setLoader(0);
+			prevLoaderSpeed = 0;
 		}
 	}
 	
@@ -94,6 +138,9 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 		}
 		if (shooter instanceof PWM) {
 			((PWM) shooter).free();
+		}
+		if (loader instanceof PWM) {
+			((PWM) loader).free();
 		}
 	}
 }

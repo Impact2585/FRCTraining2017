@@ -105,14 +105,14 @@ public class WheelSystem extends RobotSystem implements Runnable {
 		}
 		
 		// Negate forward if the inverted toggle is activated
-		if (invertDirectionToggler.state()) {
+		if (invertDirectionToggler.state() == true) {
 			forwardIn *= -1;
 		}
 		
 		double forwardDiff = forwardIn - previousForward;
 		double forward;
 		if (Math.abs(forwardDiff) < 0.05) {
-			forward = input.forwardMovement();
+			forward = forwardIn;
 		} else {
 			forward = previousForward + RAMP * (forwardDiff);
 		}

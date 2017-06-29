@@ -97,7 +97,7 @@ public class IntakeSystemTest {
 		 * @see org.usfirst.frc.team2585.input.InputMethod#intake()
 		 */
 		@Override 
-		public boolean intake() {
+		public boolean shouldIntake() {
 			return intakeTriggered;
 		}
 	}

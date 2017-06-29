@@ -57,7 +57,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	@Override
 	public void run() {
 		double newSpeed;
-		if (input.intake()) {
+		if (input.shouldIntake()) {
 			newSpeed = rampedInput(1);
 		} else {
 			newSpeed = 0;
