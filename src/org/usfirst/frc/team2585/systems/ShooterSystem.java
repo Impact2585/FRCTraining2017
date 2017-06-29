@@ -73,7 +73,7 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	 * @param agitatorSpeed the raw speed to be sent to the agitator motor
 	 */
 	protected void setShooter(double shooterSpeed) {
-		shooter.set(shooterSpeed);
+		shooter.set(-shooterSpeed);
 		
 	}
 	
@@ -96,7 +96,7 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	 * @param loaderSpeed the speed to set the loader motor to
 	 */
 	public void setLoader(double loaderSpeed) {
-		loader.set(loaderSpeed);
+		loader.set(-loaderSpeed);
 	}
 	
 	/**
