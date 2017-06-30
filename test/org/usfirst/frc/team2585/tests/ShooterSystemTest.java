@@ -60,6 +60,26 @@ public class ShooterSystemTest {
 	}
 	
 	/**
+	 * Test the ramping of the agitator motor and loader motor
+	 */
+	@Test
+	public void testAgitatorMotorRamps() {
+		loadInput = true;
+		shooter.run();
+		Assert.assertTrue(currentAgitatorOut == shooter.RAMP * shooter.agitatorMultiplier);
+		Assert.assertTrue(currentAgitatorOut > 0 && currentAgitatorOut < 1);
+		
+		Assert.assertTrue(currentLoaderOut == shooter.RAMP * shooter.loaderMultiplier);
+		Assert.assertTrue(currentLoaderOut > 0 && currentLoaderOut < 1);
+		shooter.run();
+		Assert.assertTrue(currentAgitatorOut > 0 && currentAgitatorOut < 1);
+		Assert.assertTrue(currentLoaderOut > 0 && currentLoaderOut < 1);
+		
+	}
+	
+	
+	
+	/**
 	 * Test that the motor speed drops to 0 when it the shooter is deactivated
 	 */
 	@Test
@@ -73,26 +93,9 @@ public class ShooterSystemTest {
 		Assert.assertTrue(currentShooterOut == 0);
 	}
 	
-	@Test
-	public void testShooterMultiplier() {
-		shooterInput = true;
-		for (int i=0; i<10; i++) {
-			shooter.run();
-		}
-		Assert.assertTrue(currentShooterOut == shooter.shooterMultiplier);
-	}
-	
-	@Test
-	public void testLoaderMultiplier() {
-		loadInput = true;
-		for (int i=0; i<10; i++) {
-			shooter.run();
-		}
-		
-		Assert.assertTrue(currentLoaderOut == shooter.loaderMultiplier);
-		Assert.assertTrue(currentAgitatorOut == shooter.agitatorMultiplier);
-	}
-	
+	/**
+	 * Test that the loader motor speeds drop to zero when the input is set to false
+	 */
 	@Test
 	public void testLoaderDropsToZero() {
 		loadInput = true;
@@ -105,6 +108,32 @@ public class ShooterSystemTest {
 		
 		Assert.assertTrue(currentLoaderOut == 0);
 		Assert.assertTrue(currentAgitatorOut == 0);
+	}
+	
+	/**
+	 * Check that the shooter motor value is correctly multiplied rather than at full power
+	 */
+	@Test
+	public void testShooterMultiplier() {
+		shooterInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		Assert.assertTrue(currentShooterOut == shooter.shooterMultiplier);
+	}
+	
+	/**
+	 * Check that the agitator and loader are at appropriate values below full power
+	 */
+	@Test
+	public void testLoaderMultiplier() {
+		loadInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		
+		Assert.assertTrue(currentLoaderOut == shooter.loaderMultiplier);
+		Assert.assertTrue(currentAgitatorOut == shooter.agitatorMultiplier);
 	}
 	
 	
