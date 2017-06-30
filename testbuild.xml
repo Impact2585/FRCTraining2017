@@ -2,6 +2,7 @@
 <project basedir="." default="build" name="FRCTraining2017">
 	<property environment="env"/>
 	<property name="wpilib" value="lib/WPILib.jar"/>
+	<property name="cscore" value="lib/cscore.jar"/>
 	<property name="networktables" value="lib/NetworkTables.jar"/>
 	<property name="junit.output.dir" value="junit"/>
 	<property name="debuglevel" value="source,lines,vars"/>
@@ -10,6 +11,7 @@
 	<path id="FRCTraining2017.classpath">
 		<pathelement location="bin"/>
 		<pathelement location="${wpilib}"/>
+		<pathelement location="${cscore}"/>
 		<pathelement location="${networktables}"/>
 		<pathelement location="lib/Lib2585.jar"/>
 		<pathelement location="lib/junit-4.12.jar"/>
