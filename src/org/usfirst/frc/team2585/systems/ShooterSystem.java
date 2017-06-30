@@ -124,6 +124,7 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 			rampAndLoad(1.0);
 		} else {
 			setLoader(0);
+			setAgitator(0);
 			prevLoaderSpeed = 0;
 		}
 	}

@@ -93,6 +93,20 @@ public class ShooterSystemTest {
 		Assert.assertTrue(currentAgitatorOut == shooter.agitatorMultiplier);
 	}
 	
+	@Test
+	public void testLoaderDropsToZero() {
+		loadInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		
+		loadInput = false;
+		shooter.run();
+		
+		Assert.assertTrue(currentLoaderOut == 0);
+		Assert.assertTrue(currentAgitatorOut == 0);
+	}
+	
 	
 	/**
 	 * Input for testing that uses the input fields of ShooterSystemTest as input rather than reading the input from a remote
