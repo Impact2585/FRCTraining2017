@@ -37,7 +37,11 @@ public class Robot extends ExecuterBasedRobot {
 		chooser.addObject("Drive Right", commands.new DriveRight());
 		SmartDashboard.putData("Auton choices", chooser);
 		
-		CameraServer.getInstance().startAutomaticCapture();
+		try {
+			CameraServer.getInstance().startAutomaticCapture();
+		} catch (Throwable e) {
+			System.out.println("Could not start camera");
+		}
 	}
 
 	/**
