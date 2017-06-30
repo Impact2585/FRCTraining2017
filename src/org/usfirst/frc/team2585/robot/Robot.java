@@ -2,7 +2,6 @@ package org.usfirst.frc.team2585.robot;
 
 import org.impact2585.lib2585.ExecuterBasedRobot;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -37,11 +36,11 @@ public class Robot extends ExecuterBasedRobot {
 		chooser.addObject("Drive Right", commands.new DriveRight());
 		SmartDashboard.putData("Auton choices", chooser);
 		
-		try {
-			CameraServer.getInstance().startAutomaticCapture();
-		} catch (Throwable e) {
-			System.out.println("Could not start camera");
-		}
+//		try {
+//			CameraServer.getInstance().startAutomaticCapture();
+//		} catch (Throwable e) {
+//			System.out.println("Could not start camera");
+//		}
 	}
 
 	/**
