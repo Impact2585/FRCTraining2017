@@ -20,7 +20,7 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	private double prevLoaderSpeed;
 	
 	public final double shooterMultiplier = 0.8;
-	public final double loaderMultiplier = 0.9;
+	public final double loaderMultiplier = 0.3;
 	public final double agitatorMultiplier = 0.7;
 	
 	
