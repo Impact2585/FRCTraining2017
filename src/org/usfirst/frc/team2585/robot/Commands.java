@@ -23,7 +23,7 @@ public class Commands {
 	 * Move the robot forward with no rotation
 	 */
 	private static void driveForward() {
-		drivetrain.driveWithRotation(0.4, 0);
+		drivetrain.driveWithRotation(0.8, 0);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class Commands {
 	 * Autonomous command that drives the robot straight for 1.5 seconds and then stops
 	 */
 	public class Center implements AutonomousCommand {
-		private static final int timeToDrive = 1500;
+		private static final int timeToDrive = 3000;
 
 		@Override
 		public void execute(long timeElapsed) {			
