@@ -97,12 +97,16 @@ public class WheelSystemTest {
 	@Test
 	public void testDeadzone() {
 		// Test forward dampening
-		forwardInput = 0.09;
+		forwardInput = 0.01;
 		driveTrain.run();
 		Assert.assertTrue(currentForwardOut == 0);
 		
+		forwardInput = 0.02;
+		driveTrain.run();
+		Assert.assertTrue(currentForwardOut > 0);
+		
 		// Test rotation dampening
-		rotationInput = 0.09;
+		rotationInput = 0.01;
 		driveTrain.run();
 		Assert.assertTrue(currentRotationOut == 0);
 	}

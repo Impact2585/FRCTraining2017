@@ -20,7 +20,7 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	protected double currentRotation;
 	private double previousForward;
 	
-	public static final double DEADZONE = 0.1;
+	public static final double DEADZONE = 0.02;
 	public static final double RAMP = 0.6;
 	public static final double ROTATION_EXPONENT = 2.0;
 	
