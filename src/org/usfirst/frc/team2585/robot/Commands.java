@@ -52,7 +52,7 @@ public class Commands {
 	 * Autonomous command that that drives the robot forward and then turns left and continues driving forward
 	 */
 	public class RightSide implements AutonomousCommand {
-		private static final int timeToDriveStraight = 3500;
+		private static final int timeToDriveStraight = 3100;
 		private static final int timeToTurnLeft = timeToDriveStraight + 400;
 		private static final int timeToDriveLeft = timeToTurnLeft + 1000;
 		
@@ -77,7 +77,7 @@ public class Commands {
 	 * Autonomous command that drives the robot forward and then turns right and drives forward again
 	 */
 	public class LeftSide implements AutonomousCommand {
-		private static final int timeToDriveStraight = 3500;
+		private static final int timeToDriveStraight = 3100;
 		private static final int timeToTurnRight = timeToDriveStraight + 400;
 		private static final int timeToDriveRight = timeToTurnRight + 1000;
 		
