@@ -16,7 +16,7 @@ public class Commands {
 	 */
 	public Commands(Environment env) {
 		environ = env;
-		drivetrain = (WheelSystem) environ.getSystem("wheelSystem");
+		drivetrain = (WheelSystem) environ.getSystem(Environment.WHEEL_SYSTEM);
 	}
 	
 	/**

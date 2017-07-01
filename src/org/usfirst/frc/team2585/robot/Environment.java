@@ -21,6 +21,11 @@ public class Environment extends RobotEnvironment{
 	private HashMap<String, RobotSystem> systems;
 	private InputMethod input;
 	
+	public static final String WHEEL_SYSTEM = "wheelSystem";
+	public static final String SHOOTER_SYSTEM = "shooterSystem";
+	public static final String INTAKE_SYSTEM = "intakeSystem";
+	public static final String LIFT_SYSTEM = "liftSystem";
+	
 	/**
 	 * Initializes the systems
 	 * @param robot the robot that belongs to the environment
@@ -30,10 +35,10 @@ public class Environment extends RobotEnvironment{
 		input = new XboxInput();
 		
 		systems = new HashMap<String, RobotSystem>();
-		systems.put("wheelSystem", new WheelSystem());
-		systems.put("shooterSystem", new ShooterSystem());
-		systems.put("intakeSystem", new IntakeSystem());
-		systems.put("liftSystem", new LiftSystem());
+		systems.put(Environment.WHEEL_SYSTEM, new WheelSystem());
+		systems.put(Environment.SHOOTER_SYSTEM, new ShooterSystem());
+		systems.put(Environment.INTAKE_SYSTEM, new IntakeSystem());
+		systems.put(Environment.LIFT_SYSTEM, new LiftSystem());
 		
 		for (RobotSystem system : systems.values()) {
 			system.init(this);
