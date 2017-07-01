@@ -23,7 +23,7 @@ public class Commands {
 	 * Move the robot forward with no rotation
 	 */
 	private static void driveForward() {
-		drivetrain.driveWithRotation(-0.2, 0);
+		drivetrain.driveWithRotation(-0.4, 0);
 	}
 	
 	/**
@@ -112,5 +112,12 @@ public class Commands {
 				stop();
 			}	
 		}	
+	}
+	
+	public class None implements AutonomousCommand {
+		@Override
+		public void execute(long timeElapsed) {
+			stop();
+		}
 	}
 }

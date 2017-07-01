@@ -35,6 +35,7 @@ public class Robot extends ExecuterBasedRobot {
 		chooser.addDefault("center", commands.new Center());
 		chooser.addObject("left", commands.new LeftSide());
 		chooser.addObject("right", commands.new RightSide());
+		chooser.addObject("none", commands.new None());
 		SmartDashboard.putData("Auton choices", chooser);
 		
 		CameraServer.getInstance().startAutomaticCapture();

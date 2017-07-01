@@ -20,7 +20,7 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	protected double currentRotation;
 	private double previousForward;
 	
-	public static final double DEADZONE = 0.15;
+	public static final double DEADZONE = 0.1;
 	public static final double RAMP = 0.6;
 	public static final double ROTATION_EXPONENT = 2.0;
 	
@@ -77,10 +77,10 @@ public class WheelSystem extends RobotSystem implements Runnable {
 	 * @param rotation value between -1 and 1 representing the left/right rotation
 	 */
 	public void driveWithRotation(double forward, double rotation) {
-		forward = applyDeadZone(rampedForward(forward));
+		forward = rampedForward(applyDeadZone(forward));
 		currentForward = forward;
 		
-		rotation = applyDeadZone(applyRotationExponent(rotation));
+		rotation = applyRotationExponent(applyDeadZone(rotation));
 		
 		arcadeControl(forward, rotation);
 	}
