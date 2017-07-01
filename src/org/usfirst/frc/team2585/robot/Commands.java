@@ -23,7 +23,7 @@ public class Commands {
 	 * Move the robot forward with no rotation
 	 */
 	private static void driveForward() {
-		drivetrain.driveWithRotation(-0.4, 0);
+		drivetrain.driveWithRotation(0.4, 0);
 	}
 	
 	/**
