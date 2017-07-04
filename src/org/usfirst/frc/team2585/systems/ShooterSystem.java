@@ -5,8 +5,8 @@ import org.usfirst.frc.team2585.robot.Environment;
 import org.usfirst.frc.team2585.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
 
 /**
  * This system controls the ball shooter of the robot
@@ -34,8 +34,8 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 	@Override
 	public void init(Environment environ) {
 		super.init(environ);
-		agitator = new Victor(RobotMap.AGITATOR);
-		shooter = new Victor(RobotMap.SHOOTER);
+		agitator = new Spark(RobotMap.AGITATOR);
+		shooter = new Spark(RobotMap.SHOOTER);
 	}
 	
 	/**
