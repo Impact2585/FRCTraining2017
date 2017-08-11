@@ -20,6 +20,7 @@ public class AutonomousExecutor extends RunnableExecuter implements Initializabl
 	@Override
 	public void init(Environment environ) {
 		env = environ;
+
 		drivetrain = (WheelSystem) env.getSystem(Environment.WHEEL_SYSTEM);
 		initialTime = System.currentTimeMillis();
 	}

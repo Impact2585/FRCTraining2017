@@ -20,6 +20,7 @@ public class Environment extends RobotEnvironment{
 	private static final long serialVersionUID = 6320366174026889629L;
 	private HashMap<String, RobotSystem> systems;
 	private InputMethod input;
+
 	
 	public static final String WHEEL_SYSTEM = "wheelSystem";
 	public static final String SHOOTER_SYSTEM = "shooterSystem";
@@ -35,6 +36,7 @@ public class Environment extends RobotEnvironment{
 		input = new XboxInput();
 		
 		systems = new HashMap<String, RobotSystem>();
+
 		systems.put(Environment.WHEEL_SYSTEM, new WheelSystem());
 		systems.put(Environment.SHOOTER_SYSTEM, new ShooterSystem());
 		systems.put(Environment.INTAKE_SYSTEM, new IntakeSystem());

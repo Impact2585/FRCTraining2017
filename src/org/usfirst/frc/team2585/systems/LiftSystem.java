@@ -22,7 +22,7 @@ public class LiftSystem extends RobotSystem implements Runnable {
 	@Override
 	public void init(Environment environ) {
 		super.init(environ);
-		liftMotor = new Spark(RobotMap.INTAKE_MOTOR);
+		liftMotor = new Spark(RobotMap.LIFT_MOTOR);
 	}
 	
 	/**

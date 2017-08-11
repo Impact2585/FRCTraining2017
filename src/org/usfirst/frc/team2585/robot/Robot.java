@@ -2,6 +2,7 @@ package org.usfirst.frc.team2585.robot;
 
 import org.impact2585.lib2585.ExecuterBasedRobot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,10 +32,13 @@ public class Robot extends ExecuterBasedRobot {
 		environ = new Environment(this);
 		
 		commands = new Commands(environ);
-		chooser.addDefault("Straight Drive", commands.new DriveStraight());
-		chooser.addObject("Drive Left", commands.new DriveLeft());
-		chooser.addObject("Drive Right", commands.new DriveRight());
+		chooser.addDefault("center", commands.new Center());
+		chooser.addObject("left", commands.new LeftSide());
+		chooser.addObject("right", commands.new RightSide());
+		chooser.addObject("none", commands.new None());
 		SmartDashboard.putData("Auton choices", chooser);
+		
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**

@@ -56,15 +56,37 @@ public class XboxInput extends InputMethod {
 	 * @see org.usfirst.frc.team2585.input.InputMethod#shoot()
 	 */
 	@Override 
-	public boolean shouldShoot() {
+	public boolean shouldToggleShooter() {
+		return controller.getRawButton(XboxConstants.RIGHT_BUMPER);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#shouldLoad()
+	 */
+	@Override
+	public boolean shouldLoad() {
 		return controller.getRawAxis(XboxConstants.RIGHT_TRIGGER) > 0.15;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team2585.input.InputMethod#intake()
 	 */
-	public boolean intake() {
-		return controller.getRawButton(XboxConstants.LEFT_TRIGGER);
+	public boolean shouldIntake() {
+		return controller.getRawAxis(XboxConstants.LEFT_TRIGGER) > 0.2;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#shouldLiftUp()
+	 */
+	public boolean shouldLiftUp() {
+		return controller.getRawButton(XboxConstants.Y_BUTTON);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#shouldLiftDown()
+	 */
+	public boolean shouldLiftDown() {
+		return controller.getRawButton(XboxConstants.X_BUTTON);
 	}
 	
 	/* (non-Javadoc)

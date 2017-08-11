@@ -21,7 +21,7 @@ public abstract class InputMethod {
 	}
 	
 	/**
-	 * @return boolean denoting whether the drivetrain direction should be inverted
+	 * @return whether the wheel system should be inverted.
 	 */
 	public boolean shouldInvert() {
 		return false;
@@ -37,14 +37,35 @@ public abstract class InputMethod {
 	/**
 	 * @return boolean denoting whether the shooter should be toggled between on and off
 	 */
-	public boolean shouldShoot() {
+	public boolean shouldToggleShooter() {
+		return false;
+	}
+	
+	/**
+	 * @return whether the loader should load balls into the shooter
+	 */
+	public boolean shouldLoad() {
 		return false;
 	}
 	
 	/**
 	 * @return whether the intake system should be running or not
 	 */
-	public boolean intake() {
+	public boolean shouldIntake() {
+		return false;
+	}
+	
+	/**
+	 * @return whether the lift system should lift up the robot
+	 */
+	public boolean shouldLiftUp() {
+		return false;
+	}
+	
+	/**
+	 * @return whether the lift system should lower the robot
+	 */
+	public boolean shouldLiftDown() {
 		return false;
 	}
 	

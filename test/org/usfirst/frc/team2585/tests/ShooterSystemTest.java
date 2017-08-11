@@ -15,9 +15,11 @@ public class ShooterSystemTest {
 	private TestInput input;
 	
 	private boolean shooterInput;
+	private boolean loadInput;
 	
 	private double currentAgitatorOut;
 	private double currentShooterOut;
+	private double currentLoaderOut;
 		
 	/**
 	 * Set up the input and shooter system to be ready for a test
@@ -51,10 +53,31 @@ public class ShooterSystemTest {
 	public void testShooterMotorRamps() {
 		shooterInput = true;
 		shooter.run();
-		Assert.assertTrue(currentShooterOut == 0.6);
+		Assert.assertTrue(currentShooterOut == shooter.RAMP * shooter.shooterMultiplier);
+		Assert.assertTrue(currentShooterOut > 0 && currentShooterOut < 1); // doesn't go directly to one
 		shooter.run();
-		Assert.assertTrue(currentShooterOut == 0.84);
+		Assert.assertTrue(currentShooterOut > 0 && currentShooterOut < 1);
 	}
+	
+	/**
+	 * Test the ramping of the agitator motor and loader motor
+	 */
+	@Test
+	public void testAgitatorMotorRamps() {
+		loadInput = true;
+		shooter.run();
+		Assert.assertTrue(currentAgitatorOut == shooter.RAMP * shooter.agitatorMultiplier);
+		Assert.assertTrue(currentAgitatorOut > 0 && currentAgitatorOut < 1);
+		
+		Assert.assertTrue(currentLoaderOut == shooter.RAMP * shooter.loaderMultiplier);
+		Assert.assertTrue(currentLoaderOut > 0 && currentLoaderOut < 1);
+		shooter.run();
+		Assert.assertTrue(currentAgitatorOut > 0 && currentAgitatorOut < 1);
+		Assert.assertTrue(currentLoaderOut > 0 && currentLoaderOut < 1);
+		
+	}
+	
+	
 	
 	/**
 	 * Test that the motor speed drops to 0 when it the shooter is deactivated
@@ -71,13 +94,46 @@ public class ShooterSystemTest {
 	}
 	
 	/**
-	 * Test that the agitator is being set to run at half the speed of the shooter
+	 * Test that the loader motor speeds drop to zero when the input is set to false
 	 */
 	@Test
-	public void testAgitatorIsHalf() {
-		shooterInput = true;
+	public void testLoaderDropsToZero() {
+		loadInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		
+		loadInput = false;
 		shooter.run();
-		Assert.assertTrue(currentAgitatorOut == currentShooterOut / 2);
+		
+		Assert.assertTrue(currentLoaderOut == 0);
+		Assert.assertTrue(currentAgitatorOut == 0);
+	}
+	
+	/**
+	 * Check that the shooter motor value is correctly multiplied rather than at full power
+	 */
+	@Test
+	public void testShooterMultiplier() {
+		shooterInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		Assert.assertTrue(currentShooterOut == shooter.shooterMultiplier);
+	}
+	
+	/**
+	 * Check that the agitator and loader are at appropriate values below full power
+	 */
+	@Test
+	public void testLoaderMultiplier() {
+		loadInput = true;
+		for (int i=0; i<10; i++) {
+			shooter.run();
+		}
+		
+		Assert.assertTrue(currentLoaderOut == shooter.loaderMultiplier);
+		Assert.assertTrue(currentAgitatorOut == shooter.agitatorMultiplier);
 	}
 	
 	
@@ -89,8 +145,13 @@ public class ShooterSystemTest {
 		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldShoot()
 		 */
 		@Override
-		public boolean shouldShoot() {
+		public boolean shouldToggleShooter() {
 			return shooterInput;
+		}
+		
+		@Override
+		public boolean shouldLoad() {
+			return loadInput;
 		}
 	}
 	
@@ -102,8 +163,23 @@ public class ShooterSystemTest {
 		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setMotors(double, double)
 		 */
 		@Override
-		public void setMotors(double shooterSpeed, double agitatorSpeed) {
+		public void setShooter(double shooterSpeed) {
 			currentShooterOut = shooterSpeed;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setLoader(double)
+		 */
+		@Override
+		public void setLoader(double loaderSpeed) {
+			currentLoaderOut = loaderSpeed;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.systems.ShooterSystem#setAgitator(double)
+		 */
+		@Override
+		public void setAgitator(double agitatorSpeed) {
 			currentAgitatorOut = agitatorSpeed;
 		}
 	}

@@ -16,6 +16,7 @@ public class Commands {
 	 */
 	public Commands(Environment env) {
 		environ = env;
+
 		drivetrain = (WheelSystem) environ.getSystem(Environment.WHEEL_SYSTEM);
 	}
 	
@@ -23,21 +24,21 @@ public class Commands {
 	 * Move the robot forward with no rotation
 	 */
 	private static void driveForward() {
-		drivetrain.driveWithRotation(1.0, 0);
+		drivetrain.driveWithRotation(0.8, -0.04);
 	}
 	
 	/**
 	 * Turn the robot left with no forward movement
 	 */
 	private static void turnLeft() {
-		drivetrain.driveWithRotation(0.0, -0.5);
+		drivetrain.driveWithRotation(0.0, -0.2);
 	}
 	
 	/**
 	 * Turn the robot right with no forward movement
 	 */
 	private static void turnRight() {
-		drivetrain.driveWithRotation(0.0, 0.5);
+		drivetrain.driveWithRotation(0.0, 0.2);
 	}
 	
 	/**
@@ -49,28 +50,23 @@ public class Commands {
 	
 	
 	/**
-	 * Autonomous command that that drives the robot to the left first and then turns back the same amount to go forward
-	 * It drives to the left for 0.5 seconds and forward for 1.5 seconds
+	 * Autonomous command that that drives the robot forward and then turns left and continues driving forward
 	 */
-	public class DriveLeft implements AutonomousCommand {
-		private static final int timeToTurnLeft = 500;
-		private static final int timeToDriveLeft = timeToTurnLeft + 500;
-		// Turn back the same amount
-		private static final int timeToTurnRight = timeToDriveLeft + timeToTurnLeft; 
-		private static final int timeToDriveForward = timeToTurnRight + 1500;
+	public class RightSide implements AutonomousCommand {
+		private static final int timeToDriveStraight = 3100;
+		private static final int timeToTurnLeft = timeToDriveStraight + 400;
+		private static final int timeToDriveLeft = timeToTurnLeft + 1000;
 		
 		/* (non-Javadoc)
 		 * @see org.usfirst.frc.team2585.AutonomousCommand#execute(long)
 		 */
 		@Override
 		public void execute(long timeElapsed) {
-			if (timeElapsed < timeToTurnLeft) {
+			if (timeElapsed < timeToDriveStraight) {
+				driveForward();
+			} else if (timeElapsed < timeToTurnLeft) {
 				turnLeft();
 			} else if (timeElapsed < timeToDriveLeft) {
-				driveForward();
-			} else if (timeElapsed < timeToTurnRight) {
-				turnRight();
-			} else if (timeElapsed < timeToDriveForward) {
 				driveForward();
 			} else {
 				stop();
@@ -79,28 +75,23 @@ public class Commands {
 	}
 	
 	/**
-	 * Autonomous command that drives the robot to the right and then turns back an equal amount to drive forward
-	 * It drives to the right for 0.5 seconds and forward for 1.5 seconds
+	 * Autonomous command that drives the robot forward and then turns right and drives forward again
 	 */
-	public class DriveRight implements AutonomousCommand {
-		private static final int timeToTurnRight = 500;
-		private static final int timeToDriveRight = timeToTurnRight + 500;
-		// Turn back the same amount
-		private static final int timeToTurnLeft = timeToDriveRight + timeToTurnRight; 
-		private static final int timeToDriveForward = timeToTurnLeft + 1500;
+	public class LeftSide implements AutonomousCommand {
+		private static final int timeToDriveStraight = 3100;
+		private static final int timeToTurnRight = timeToDriveStraight + 400;
+		private static final int timeToDriveRight = timeToTurnRight + 1000;
 		
 		/* (non-Javadoc)
-		 * @see org.usfirst.frc.team2585.AutonomousExecutor#execute()
+		 * @see org.usfirst.frc.team2585.AutonomousCommand#execute(long)
 		 */
 		@Override
 		public void execute(long timeElapsed) {
-			if (timeElapsed < timeToTurnRight) {
+			if (timeElapsed < timeToDriveStraight) {
+				driveForward();
+			} else if (timeElapsed < timeToTurnRight) {
 				turnRight();
 			} else if (timeElapsed < timeToDriveRight) {
-				driveForward();
-			} else if (timeElapsed < timeToTurnLeft) {
-				turnLeft();
-			} else if (timeElapsed < timeToDriveForward) {
 				driveForward();
 			} else {
 				stop();
@@ -111,8 +102,8 @@ public class Commands {
 	/**
 	 * Autonomous command that drives the robot straight for 1.5 seconds and then stops
 	 */
-	public class DriveStraight implements AutonomousCommand {
-		private static final int timeToDrive = 1500;
+	public class Center implements AutonomousCommand {
+		private static final int timeToDrive = 3100;
 
 		@Override
 		public void execute(long timeElapsed) {			
@@ -122,5 +113,12 @@ public class Commands {
 				stop();
 			}	
 		}	
+	}
+	
+	public class None implements AutonomousCommand {
+		@Override
+		public void execute(long timeElapsed) {
+			stop();
+		}
 	}
 }

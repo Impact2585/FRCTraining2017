@@ -22,7 +22,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	@Override
 	public void init(Environment environ) {
 		super.init(environ);
-		intakeMotor = new Spark(RobotMap.LIFT_MOTOR);
+		intakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	 * @param speed the speed to set the intake motor to
 	 */
 	public void setMotorSpeed(double speed) {
-		intakeMotor.set(speed);
+		intakeMotor.set(-speed); // invert the intake direction
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +57,7 @@ public class IntakeSystem extends RobotSystem implements Runnable {
 	@Override
 	public void run() {
 		double newSpeed;
-		if (input.intake()) {
+		if (input.shouldIntake()) {
 			newSpeed = rampedInput(1);
 		} else {
 			newSpeed = 0;
