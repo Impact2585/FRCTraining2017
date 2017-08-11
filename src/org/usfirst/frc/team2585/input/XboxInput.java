@@ -89,18 +89,4 @@ public class XboxInput extends InputMethod {
 		return controller.getRawButton(XboxConstants.X_BUTTON);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.usfirst.frc.team2585.input.InputMethod#shouldLiftUp()
-	 */
-	public boolean shouldLiftUp() {
-		return controller.getRawButton(XboxConstants.Y_BUTTON);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.usfirst.frc.team2585.input.InputMethod#shouldLiftDown()
-	 */
-	public boolean shouldLiftDown() {
-		return controller.getRawButton(XboxConstants.X_BUTTON);
-	}
-	
 }
