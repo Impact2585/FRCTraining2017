@@ -43,7 +43,6 @@ public class ShooterSystem extends RobotSystem implements Runnable {
 		super.init(environ);
 		agitator = new Spark(RobotMap.AGITATOR);
 		shooter = new Spark(RobotMap.SHOOTER);
-		loader = new Spark(RobotMap.LOADER);
 	}
 	
 	/**

@@ -17,4 +17,5 @@ public interface RobotMap {
 	
 	// Digital io
 	public static final int SOLENOID = 4;
+
 }
